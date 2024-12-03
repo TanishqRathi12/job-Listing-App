@@ -1,14 +1,19 @@
-'use client';
+"use client";
 
 import Navigation from "./components/Navigation";
+import Filter from "./components/Filter";
+import Container from "./components/Container";
+import Footer from "./components/Footer";
 
 const jobApp = () => {
-    return (
-        <div>
-          <Navigation/>
-            <h1>"Job Application</h1>
-        </div>
-    )
-}
+  return (
+    <div>
+      <Navigation />
+      <Filter />
+      <Container />
+      <Footer />
+    </div>
+  );
+};
 
 export default jobApp;
