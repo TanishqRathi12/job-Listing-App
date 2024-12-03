@@ -9,7 +9,22 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        '968': '968px', // Custom breakpoint at 968px
+      },
+    },
   },
   plugins: [],
 };
+// module.exports = {
+//   theme: {
+//     extend: {
+//       screens: {
+//         '968': '968px', // Custom breakpoint at 968px
+//       },
+//     },
+//   },
+//   plugins: [],
+// }
+

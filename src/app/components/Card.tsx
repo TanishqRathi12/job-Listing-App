@@ -5,11 +5,12 @@ interface CardProps {
   salary: string;
   location: string;
   isRemote: boolean;
+  country?: string;
   company?: string;
     Logo?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, salary, location, isRemote, company , Logo}) => {
+const Card: React.FC<CardProps> = ({ title, salary, location, isRemote, company, country , Logo}) => {
   return (
     <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-100 hover:to-white">
       <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
@@ -27,7 +28,7 @@ const Card: React.FC<CardProps> = ({ title, salary, location, isRemote, company 
         />
         <div>
           <p className="text-sm font-medium text-gray-700">{company || "Google Inc."}</p>
-          <p className="text-xs text-gray-500">{location}</p>
+          <p className="text-xs text-gray-500">{country}</p>
         </div>
       </div>
     </div>

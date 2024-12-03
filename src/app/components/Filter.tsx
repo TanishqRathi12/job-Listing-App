@@ -4,8 +4,8 @@ import { MdLocationOn, MdGpsFixed } from "react-icons/md";
 
 const Filter: React.FC = () => {
   return (
-    <div className="flex flex-col md:flex-row md:space-x-4 px-4 lg:pr-96 md:px-48 pt-4 space-y-4 md:space-y-0">
-      <div className="flex items-center p-3 gap-3 border rounded-lg border-gray-300 flex-1">
+    <div className="flex flex-col px-4 pt-4 space-y-4 md:flex-row md:space-x-4 md:space-y-0 md:px-48 lg:pr-96">
+      <div className="flex items-center p-4 gap-3 border rounded-lg border-gray-300 flex-1">
         <FiSearch size={24} className="text-blue-600" />
         <input
           type="text"
@@ -13,7 +13,7 @@ const Filter: React.FC = () => {
           className="flex-1 border border-transparent focus:outline-none text-sm md:text-base"
         />
       </div>
-      <div className="flex items-center p-3 border rounded-lg border-gray-300 gap-3 flex-1">
+      <div className="flex items-center p-4 gap-3 border rounded-lg border-gray-300 flex-1">
         <MdLocationOn size={24} className="text-blue-600" />
         <input
           type="text"
