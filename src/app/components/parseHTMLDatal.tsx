@@ -30,7 +30,7 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
 
     // Extract the location from applicantLocationRequirements
     const location =
-      applicantLocationRequirements?.[0]?.name || false;
+      applicantLocationRequirements?.[0]?.name || "REMOTE";
 
     const addressRegion = jobLocation[0]?.address?.addressCountry || false;
     const addressPostalCode = jobLocation?.address?.postalCode || 'N/A';
@@ -45,7 +45,7 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
       title,
       companyName,
       companyLogo,
-      location,
+      location  ,
       addressRegion,
       addressPostalCode,
       salary,
@@ -55,7 +55,7 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
       keywords,
     };
   } catch (error) {
-    console.error('Error parsing JSON-LD:', error);
+    console.error('Error parsing:', error);
     return null;
   }
 };
