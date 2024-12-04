@@ -34,16 +34,16 @@ const Card: React.FC<CardProps> = ({
     let updatedBookmarks;
     if (bookmarks.includes(id)) {
       updatedBookmarks = bookmarks.filter((bookmark: string) => bookmark !== id);
-      toast.success("Bookmark removed",{
+      toast.dark("Bookmark removed",{
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
       })
 
     } else {
       updatedBookmarks = [...bookmarks, id]; // If not bookmarked, add to bookmarks
       toast.success("Bookmark added",{
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
       })
     }
     // Update localStorage and component state
@@ -52,8 +52,9 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
+    
     <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-100 hover:to-white">
-      <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+      <a href={id} target="_blank" rel="noreferrer"><h3 className="text-lg font-semibold text-gray-800 hover:underline">{title}</h3></a>
       <span className="inline-block px-2 py-1 mt-2 text-xs text-green-600 bg-green-100 rounded-md">
         {isRemote}
       </span>
@@ -69,9 +70,14 @@ const Card: React.FC<CardProps> = ({
             <p className="text-sm font-medium text-gray-700">
               {company || "Google Inc."}
             </p>
+            <div className=" flex items-center gap-1">
+              {location && location !== "REMOTE" ? (
+              <img src="/MapPin.png" alt="" className="w-4 h-4" />
+            ):("")}
             <p className="text-xs text-gray-500">
-              {location && location === "REMOTE" ? "" : location}
+              {location && location === "REMOTE" ? "" :  location}
             </p>
+            </div>
           </div>
         </div>
         <button

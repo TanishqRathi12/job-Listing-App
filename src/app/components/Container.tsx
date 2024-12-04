@@ -7,8 +7,6 @@ import { fetchJobData } from "./FetchJobData";
 import Filter from "./Filter";
 import { toast } from "react-toastify";
 
-
-
 interface Job {
   title: string;
   salary: string;
@@ -30,7 +28,6 @@ const fetchData = async ({ pageParam = 1}: { pageParam: number }): Promise<Job[]
 
   // Fetch the job data from the API
   const jobs = await fetchJobData(url);
- // console.log(jobs)
   return jobs;
 };
 
@@ -41,13 +38,12 @@ const Container: React.FC = () => {
     location: "",
   });
 
-
   // Handle filter change (update the filters state)
   const onFilterChange = useCallback((newFilters: { keyword: string; location: string }) => {
     setFilters(newFilters);
     toast.success("Filter Applied",{
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 2000,
     })
   }, []);
 
@@ -75,11 +71,17 @@ const Container: React.FC = () => {
 
   const allJobs = data?.pages.flat() || []; // Flatten the pages array
 
-  // jobs based on the keyword in the "keywords" field
+  // jobs based on the keyword in the "keywords" field and salary
   const filteredJobs = allJobs.filter((job) => {
-    const matchesKeyword = filters.keyword
-      ? job.keywords.some((keyword) => keyword.toLowerCase().includes(filters.keyword.toLowerCase()))
-      : true;
+    const searchKeyword = filters.keyword.toLowerCase();
+
+    const matchesKeyword =
+      searchKeyword
+        ? job.keywords.some((keyword) => keyword.toLowerCase().includes(searchKeyword)) ||
+          job.salary.toLowerCase().includes(searchKeyword) || // Match salary
+          job.title.toLowerCase().includes(searchKeyword) // Optionally include title for broader search
+        : true;
+
     const matchesLocation = filters.location
       ? job.location.toLowerCase().includes(filters.location.toLowerCase())
       : true; // If no location filter, allow all jobs

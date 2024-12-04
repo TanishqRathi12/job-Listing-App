@@ -11,14 +11,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      refetchOnWindowFocus: false, // Do not refetch on window focus
-      refetchOnMount: false, // Do not refetch when the component mounts
-      refetchOnReconnect: false, // Do not refetch on reconnect
-    },
-  },
+  // defaultOptions: {
+  //   queries: {
+  //     staleTime: 1000 * 60 * 5, // 5 minutes
+  //     refetchOnWindowFocus: false, // Do not refetch on window focus
+  //     refetchOnMount: false, // Do not refetch when the component mounts
+  //     refetchOnReconnect: false, // Do not refetch on reconnect
+  //   },
+  //},
 });
 const jobApp = () => {
   return (
