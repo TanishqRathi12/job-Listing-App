@@ -1,58 +1,79 @@
 import * as cheerio from 'cheerio';
 
-export const parseHTMLData = (html: string) => {
-  const $ = cheerio.load(html); // Load HTML content 
-  const jsonData = $('script[type="application/ld+json"]').html();
+const extractKeywords = (description: string, tags: Array<string> = []): Array<string> => {
+  const keywordsFromDescription = description
+    ?.match(/(?:\b\w+\b)/g) // Extract words
+    ?.filter(word => word.length > 3) || []; // for Keeping words longer than 3 characters
 
-  if (!jsonData) {
-    console.error('No JSON-LD data found');
-    return null;
-  }
+  // Combine extracted keywords with tags and remove duplicates
+  return Array.from(new Set([...keywordsFromDescription, ...tags]));
+};
 
-  let jobData;
+const parseJSONLDJobPosting = (jsonData: any): object | null => {
   try {
-    jobData = JSON.parse(jsonData);
+    if (jsonData['@type'] !== 'JobPosting') return null;
+   // console.log(jsonData);
+
+    const {
+      title = 'N/A',
+      hiringOrganization = {},
+      applicantLocationRequirements = [],
+      jobLocation = {},
+      baseSalary = {},
+      employmentType = 'N/A',
+      description = 'N/A',
+      validThrough = 'N/A',
+    } = jsonData;
+
+    const companyName = hiringOrganization?.name || 'N/A';
+    const companyLogo = hiringOrganization?.logo || 'N/A';
+
+    // Extract the location from applicantLocationRequirements
+    const location =
+      applicantLocationRequirements?.[0]?.name || false;
+
+    const addressRegion = jobLocation[0]?.address?.addressCountry || false;
+    const addressPostalCode = jobLocation?.address?.postalCode || 'N/A';
+    const salary = baseSalary?.value
+      ? `${baseSalary.value.minValue || 'N/A'}-${baseSalary.value?.maxValue || 'N/A'}`
+      : 'N/A';
+
+    // Extract keywords from description
+    const keywords = extractKeywords(description);
+
+    return {
+      title,
+      companyName,
+      companyLogo,
+      location,
+      addressRegion,
+      addressPostalCode,
+      salary,
+      employmentType,
+      description,
+      validThrough,
+      keywords,
+    };
   } catch (error) {
-    console.error('Error parsing JSON-LD data:', error);
+    console.error('Error parsing JSON-LD:', error);
     return null;
   }
+};
 
-  const {
-    title,
-    hiringOrganization,
-    jobLocation,
-    baseSalary,
-    employmentType,
-    description,
-    validThrough,
-  } = jobData; // Destructure job data
+export const parseHTMLData = (html: string): Array<object> => {
+  const $ = cheerio.load(html); // Load HTML content
+  const jobList: Array<object> = [];
 
-  // Extract relevant job data
-  const companyName = hiringOrganization?.name || 'N/A';
-  const companyUrl = hiringOrganization?.url || 'N/A';
-  const companyLogo = hiringOrganization?.logo?.url || 'N/A';
-  const addressCountry = jobLocation?.address?.addressCountry || 'N/A';
-  const addressRegion = jobLocation?.address?.addressRegion || 'N/A';
-  const postalCode = jobLocation?.address?.postalCode || 'N/A';
-  const minValue = baseSalary?.value?.minValue || 'N/A';
-  const maxValue = baseSalary?.value?.maxValue || 'N/A';
-  const salaryUnit = baseSalary?.value?.unitText || 'N/A';
-
-  return [
-    {
-      title: title || 'N/A',
-      companyName,
-      jobLocation: addressCountry,
-      companyUrl,
-      companyLogo,
-      addressCountry,
-      addressRegion,
-      postalCode,
-      baseSalary: `${minValue}-${maxValue}`,
-      salaryUnit,
-      employmentType: employmentType || 'N/A',
-      description: description || 'N/A',
-      validThrough: validThrough || 'N/A',
+  // Process JSON-LD Data
+  $('script[type="application/ld+json"]').each((_, scriptElement) => {
+    try {
+      const jsonData = JSON.parse($(scriptElement).html() || '');
+      const jobData = parseJSONLDJobPosting(jsonData);
+      if (jobData) jobList.push(jobData);
+    } catch (error) {
+      console.error('Error parsing JSON-LD:', error);
     }
-  ]; // Return an array of job data
+  });
+
+  return jobList;
 };
