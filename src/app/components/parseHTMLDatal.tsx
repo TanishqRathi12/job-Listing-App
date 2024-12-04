@@ -12,8 +12,6 @@ const extractKeywords = (description: string, tags: Array<string> = []): Array<s
 const parseJSONLDJobPosting = (jsonData: any): object | null => {
   try {
     if (jsonData['@type'] !== 'JobPosting') return null;
-   // console.log(jsonData);
-
     const {
       title = 'N/A',
       hiringOrganization = {},
@@ -24,9 +22,10 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
       description = 'N/A',
       validThrough = 'N/A',
     } = jsonData;
-
+    //console.log(jsonData);
     const companyName = hiringOrganization?.name || 'N/A';
     const companyLogo = hiringOrganization?.logo || 'N/A';
+    const companyUrl = hiringOrganization?.url || 'N/A';
 
     // Extract the location from applicantLocationRequirements
     const location =
@@ -35,7 +34,7 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
     const addressRegion = jobLocation[0]?.address?.addressCountry || false;
     const addressPostalCode = jobLocation?.address?.postalCode || 'N/A';
     const salary = baseSalary?.value
-      ? `${baseSalary.value.minValue || 'N/A'}-${baseSalary.value?.maxValue || 'N/A'}`
+      ? `$${baseSalary.value.minValue || 'N/A'}-$${baseSalary.value?.maxValue || 'N/A'}`
       : 'N/A';
 
     // Extract keywords from description
@@ -45,6 +44,7 @@ const parseJSONLDJobPosting = (jsonData: any): object | null => {
       title,
       companyName,
       companyLogo,
+      companyUrl,
       location  ,
       addressRegion,
       addressPostalCode,
@@ -74,6 +74,6 @@ export const parseHTMLData = (html: string): Array<object> => {
       console.error('Error parsing JSON-LD:', error);
     }
   });
-
+  //console.log(jobList);
   return jobList;
 };

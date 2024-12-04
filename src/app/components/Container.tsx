@@ -5,6 +5,8 @@ import Card from "./Card";
 import Loading from "./Loading";
 import { fetchJobData } from "./FetchJobData";
 import Filter from "./Filter";
+import { toast } from "react-toastify";
+
 
 
 interface Job {
@@ -13,9 +15,11 @@ interface Job {
   isRemote?: string;
   location: string;
   companyName: string;
+  companyUrl: string;
   companyLogo: {
     url: string;
   };
+  id: string;
   keywords: string[]; // Array of keywords
 }
 
@@ -26,6 +30,7 @@ const fetchData = async ({ pageParam = 1}: { pageParam: number }): Promise<Job[]
 
   // Fetch the job data from the API
   const jobs = await fetchJobData(url);
+ // console.log(jobs)
   return jobs;
 };
 
@@ -40,6 +45,10 @@ const Container: React.FC = () => {
   // Handle filter change (update the filters state)
   const onFilterChange = useCallback((newFilters: { keyword: string; location: string }) => {
     setFilters(newFilters);
+    toast.success("Filter Applied",{
+      position: "top-right",
+      autoClose: 3000,
+    })
   }, []);
 
   // Fetching job data 
@@ -93,6 +102,7 @@ const Container: React.FC = () => {
             filteredJobs.map((job, index) => (
               <Card
                 key={index}
+                id={job?.companyUrl}
                 title={job.title}
                 salary={job.salary}
                 isRemote={job?.location}  
