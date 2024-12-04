@@ -22,7 +22,7 @@ interface Job {
 }
 
 // Function to fetch job data from an API with filters and pagination
-const fetchData = async ({ pageParam = 1}: { pageParam: number }): Promise<Job[]> => {
+const fetchData = async ({ pageParam = 1 }: { pageParam: number }): Promise<Job[]> => {
   const offset = (pageParam - 1) * 20 + 1;
   let url = `${process.env.NEXT_PUBLIC_URL}?offset=${offset}`;
 
@@ -34,20 +34,23 @@ const fetchData = async ({ pageParam = 1}: { pageParam: number }): Promise<Job[]
 const Container: React.FC = () => {
   // to store filter values
   const [filters, setFilters] = useState({
-    keyword: "",
+    keyword: "", // initially no filter
     location: "",
   });
 
   // Handle filter change (update the filters state)
-  const onFilterChange = useCallback((newFilters: { keyword: string; location: string }) => {
-    setFilters(newFilters);
-    toast.success("Filter Applied",{
-      position: "top-right",
-      autoClose: 2000,
-    })
-  }, []);
+  const onFilterChange = useCallback(
+    (newFilters: { keyword: string; location: string }) => {
+      setFilters(newFilters);
+      toast.success("Filter Applied", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    },
+    []
+  );
 
-  // Fetching job data 
+  // Fetching job data
   const {
     data,
     fetchNextPage,
@@ -60,60 +63,62 @@ const Container: React.FC = () => {
     queryFn: async ({ pageParam = 1 }) => fetchData({ pageParam : pageParam as number }),
     initialPageParam: 1, // Starting page for the query
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.length > 0 ? pages.length + 1 : undefined;   // Determine if there's another page 
+      return lastPage.length > 0 ? pages.length + 1 : undefined; // Determine if there's another page
     },
-    enabled: true, // filters are optional
+    enabled: true, // without filter on initial load
   });
 
-  // loading and error states
+  // Loading and error states
   if (isLoading) return <Loading />;
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isError) return <div>Error: {error?.message}</div>;
 
-  const allJobs = data?.pages.flat() || []; // Flatten the pages array
+  const allJobs = data?.pages.flat() || []; // converting nested array to single array
 
-  // jobs based on the keyword in the "keywords" field and salary
-  const filteredJobs = allJobs.filter((job) => {
+  const filteredJobs = allJobs.filter((job) => {   // Filter 
     const searchKeyword = filters.keyword.toLowerCase();
 
     const matchesKeyword =
       searchKeyword
-        ? job.keywords.some((keyword) => keyword.toLowerCase().includes(searchKeyword)) ||
-          job.salary.toLowerCase().includes(searchKeyword) || // Match salary
-          job.title.toLowerCase().includes(searchKeyword) // Optionally include title for broader search
+        ? job.keywords.some((keyword) => keyword.toLowerCase().includes(searchKeyword)) ||  //filter by keyword 
+          job.salary.toLowerCase().includes(searchKeyword) ||                                //filter by salary
+          job.title.toLowerCase().includes(searchKeyword)                                    //filter by title
         : true;
 
     const matchesLocation = filters.location
-      ? job.location.toLowerCase().includes(filters.location.toLowerCase())
-      : true; // If no location filter, allow all jobs
+      ? job.location.toLowerCase().includes(filters.location.toLowerCase())  // filter by location
+      : true;
 
     return matchesKeyword && matchesLocation;
   });
 
-  // Return the JSX layout
+  // Ensure filteredJobs is not empty
+  if (filteredJobs.length === 0) {
+    return <div>No jobs found</div>;
+  }
+
   return (
     <>
       <Filter onFilterChange={onFilterChange} />
       <InfiniteScroll
-        dataLength={filteredJobs.length}
-        next={fetchNextPage}
-        hasMore={!!hasNextPage}
-        loader={<Loading />}
+        dataLength={filteredJobs.length} // This is the current length of the list
+        next={fetchNextPage} // Function to fetch the next page of data
+        hasMore={!!hasNextPage} // Check if there are more pages
+        loader={<Loading />} // Show loading component while fetching data
+        endMessage={<p>No more jobs</p>} // Message when no more data is available
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-16 lg:px-48 py-8 sm:py-12 lg:py-16 bg-white rounded-md shadow-md">
-          { 
-            filteredJobs.map((job, index) => (
-              <Card
-                key={index}
-                id={job?.companyUrl}
-                title={job.title}
-                salary={job.salary}
-                isRemote={job?.location}  
-                location={job?.location}
-                company={job.companyName}
-                Logo={job.companyLogo?.url}
-              />
-            ))
-          }
+          {filteredJobs.map((job,index) => (
+            <Card
+              key={index} // Use unique key for rendering
+              id={job.companyUrl}
+              title={job.title}
+              salary={job.salary}
+              isRemote={job.location} // Ensure isRemote is passed as needed
+              location={job.location}
+              company={job.companyName}
+              Logo={job.companyLogo?.url}
+            />
+          ))}
         </div>
       </InfiniteScroll>
     </>

@@ -64,7 +64,7 @@ const Card: React.FC<CardProps> = ({
           <img
             src={Logo || "/Google.png"}
             alt={company}
-            className="w-7 h-7 mr-2"
+            className="w-8 h-8 mr-2 object-scale-down"
           />
           <div>
             <p className="text-sm font-medium text-gray-700">
