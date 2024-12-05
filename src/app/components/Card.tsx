@@ -10,6 +10,7 @@ interface CardProps {
   company: string;
   Logo: string;
   id: string;
+  companyUrl: string;
 
 }
 
@@ -21,6 +22,7 @@ const Card: React.FC<CardProps> = ({
   location,
   Logo,
   id,
+  companyUrl
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -54,7 +56,7 @@ const Card: React.FC<CardProps> = ({
   return (
     
     <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-100 hover:to-white">
-      <a href={id} target="_blank" rel="noreferrer"><h3 className="text-lg font-semibold text-gray-800 hover:underline">{title}</h3></a>
+      <a href={companyUrl} target="_blank" rel="noreferrer"><h3 className="text-lg font-semibold text-gray-800 hover:underline">{title}</h3></a>
       <span className="inline-block px-2 py-1 mt-2 text-xs text-green-600 bg-green-100 rounded-md">
         {isRemote}
       </span>

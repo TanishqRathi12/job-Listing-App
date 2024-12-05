@@ -22,7 +22,9 @@ const parseJobPostingJSONLD = (jsonData: any): object | null => {
     employmentType = 'N/A',
     description = 'N/A',
     validThrough = 'N/A',
+    datePosted = 'N/A',
   } = jsonData;
+ // console.log(jsonData);
 
   const companyName = hiringOrganization?.name || 'N/A';
   const companyLogo = hiringOrganization?.logo || 'N/A';
@@ -52,6 +54,7 @@ const parseJobPostingJSONLD = (jsonData: any): object | null => {
     description,
     validThrough,
     keywords,
+    datePosted,
   };
 };
 

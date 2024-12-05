@@ -18,7 +18,8 @@ interface Job {
     url: string;
   };
   id: string;
-  keywords: string[]; // Array of keywords
+  datePosted: string;
+  keywords: string[];
 }
 
 // Function to fetch job data from an API with filters and pagination
@@ -49,7 +50,6 @@ const Container: React.FC = () => {
     },
     []
   );
-
   // Fetching job data
   const {
     data,
@@ -59,7 +59,7 @@ const Container: React.FC = () => {
     isError,
     error,
   } = useInfiniteQuery<Job[], Error>({
-    queryKey: ["jobs"],
+    queryKey: ["jobs",filters],
     queryFn: async ({ pageParam = 1 }) => fetchData({ pageParam : pageParam as number }),
     initialPageParam: 1, // Starting page for the query
     getNextPageParam: (lastPage, pages) => {
@@ -74,7 +74,16 @@ const Container: React.FC = () => {
 
   const allJobs = data?.pages.flat() || []; // converting nested array to single array
 
-  const filteredJobs = allJobs.filter((job) => {   // Filter 
+  const uniqueJobs = Array.from(
+    new Map(
+      allJobs.map(job => [
+        `${job.title}-${job.companyName}-${job.datePosted}`,  // making a unique key using title , company name and date posted
+        job,
+      ])
+    ).values()
+  );
+  
+  const filteredJobs = uniqueJobs.filter((job) => {   // Filter 
     const searchKeyword = filters.keyword.toLowerCase();
 
     const matchesKeyword =
@@ -87,10 +96,9 @@ const Container: React.FC = () => {
     const matchesLocation = filters.location
       ? job.location.toLowerCase().includes(filters.location.toLowerCase())  // filter by location
       : true;
-
     return matchesKeyword && matchesLocation;
   });
-
+ // console.log(filteredJobs);
 
   return (
     <>
@@ -102,20 +110,20 @@ const Container: React.FC = () => {
         next={fetchNextPage}// Function to fetch the next page of data
         hasMore={!!hasNextPage} // Check if there are more pages
         loader={<Loading />} // Show loading component while fetching data
-        scrollableTarget = "scrollableDiv"
         endMessage={
         <p>No more jobs</p>} // Message when no more data is available
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-16 lg:px-48 py-8 sm:py-12 lg:py-16 bg-white rounded-md shadow-md">
           {filteredJobs.map((job,index) => (
             <Card
-              key={index} // Use unique key for rendering
-              id={job.companyUrl}
+              key={index}
+              id={`${job.title}-${job.companyName}-${job.datePosted}`}
               title={job.title}
               salary={job.salary}
               isRemote={job.location} // Ensure isRemote is passed as needed
               location={job.location}
               company={job.companyName}
+              companyUrl={job.companyUrl}
               Logo={job.companyLogo?.url}
             />
           ))}
