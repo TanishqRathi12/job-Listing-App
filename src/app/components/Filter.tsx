@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdLocationOn, MdGpsFixed } from "react-icons/md";
+import { toast } from "react-toastify";
 
 interface FilterProps {
   onFilterChange: (filters: { keyword: string; location: string }) => void;
@@ -17,9 +18,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
       const data = await response.json();
       if (data && data.country) {
         setLocation(data.country); // Set the location to the user's country
+        toast.success("Location fetched from IP", {
+          position: "top-right",
+          autoClose: 500,
+        });
       }
     } catch (error) {
       console.error("Error fetching location:", error);
+      toast.error("Failed to fetch location",{
+        position: "top-right",
+        autoClose: 500,
+      });
     }
   };
 

@@ -38,14 +38,14 @@ const Card: React.FC<CardProps> = ({
       updatedBookmarks = bookmarks.filter((bookmark: string) => bookmark !== id);
       toast.dark("Bookmark removed",{
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1000,
       })
 
     } else {
       updatedBookmarks = [...bookmarks, id]; // If not bookmarked, add to bookmarks
       toast.success("Bookmark added",{
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1000,
       })
     }
     // Update localStorage and component state

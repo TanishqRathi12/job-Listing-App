@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback} from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Card from "./Card";
@@ -45,7 +45,7 @@ const Container: React.FC = () => {
       setFilters(newFilters);
       toast.success("Filter Applied", {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1000,
       });
     },
     []
@@ -59,7 +59,7 @@ const Container: React.FC = () => {
     isError,
     error,
   } = useInfiniteQuery<Job[], Error>({
-    queryKey: ["jobs",filters],
+    queryKey: ["jobs", filters.keyword,filters.location], // Unique key for the query
     queryFn: async ({ pageParam = 1 }) => fetchData({ pageParam : pageParam as number }),
     initialPageParam: 1, // Starting page for the query
     getNextPageParam: (lastPage, pages) => {
@@ -120,7 +120,7 @@ const Container: React.FC = () => {
               id={`${job.title}-${job.companyName}-${job.datePosted}`}
               title={job.title}
               salary={job.salary}
-              isRemote={job.location} // Ensure isRemote is passed as needed
+              isRemote={"REMOTE"}
               location={job.location}
               company={job.companyName}
               companyUrl={job.companyUrl}
