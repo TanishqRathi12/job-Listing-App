@@ -59,11 +59,11 @@ const Container: React.FC = () => {
     isError,
     error,
   } = useInfiniteQuery<Job[], Error>({
-    queryKey: ["jobs", filters], // Dependency on filters
+    queryKey: ["jobs"],
     queryFn: async ({ pageParam = 1 }) => fetchData({ pageParam : pageParam as number }),
     initialPageParam: 1, // Starting page for the query
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.length > 0 ? pages.length + 1 : undefined; // Determine if there's another page
+      return lastPage.length > 0 ? pages.length + 1 : undefined; // Determine if there is a more another page
     },
     enabled: true, // without filter on initial load
   });
@@ -91,20 +91,20 @@ const Container: React.FC = () => {
     return matchesKeyword && matchesLocation;
   });
 
-  // Ensure filteredJobs is not empty
-  if (filteredJobs.length === 0) {
-    return <div>No jobs found</div>;
-  }
 
   return (
     <>
       <Filter onFilterChange={onFilterChange} />
+      {filteredJobs.length === 0 ? (
+        <div className="text-center text-2xl mt-8">No jobs found</div>) : (
       <InfiniteScroll
         dataLength={filteredJobs.length} // This is the current length of the list
-        next={fetchNextPage} // Function to fetch the next page of data
+        next={fetchNextPage}// Function to fetch the next page of data
         hasMore={!!hasNextPage} // Check if there are more pages
         loader={<Loading />} // Show loading component while fetching data
-        endMessage={<p>No more jobs</p>} // Message when no more data is available
+        scrollableTarget = "scrollableDiv"
+        endMessage={
+        <p>No more jobs</p>} // Message when no more data is available
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-16 lg:px-48 py-8 sm:py-12 lg:py-16 bg-white rounded-md shadow-md">
           {filteredJobs.map((job,index) => (
@@ -121,6 +121,7 @@ const Container: React.FC = () => {
           ))}
         </div>
       </InfiniteScroll>
+      )}
     </>
   );
 };

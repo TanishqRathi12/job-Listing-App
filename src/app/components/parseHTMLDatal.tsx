@@ -69,7 +69,7 @@ export const parseHTMLData = (html: string): object[] => {
     }
   });
 
-  console.log('Parsed job postings:', jobList);
+ // console.log('Parsed job postings:', jobList);
 
   return jobList;
 };

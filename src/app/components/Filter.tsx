@@ -43,7 +43,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col px-4 pt-4 space-y-4 md:flex-row md:space-x-4 md:space-y-0 md:px-48 lg:pr-96"
+      className="flex flex-col px-4 pt-4 space-y-4 md:flex-row md:space-x-4 md:space-y-0 lg:px-48 lg:pr-96"
     >
       <div className="flex items-center p-4 gap-3 border rounded-lg border-gray-300 flex-1">
         <FiSearch size={24} className="text-blue-600" />
@@ -76,7 +76,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 text-sm md:text-base"
+          className="px-2 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 text-sm md:text-base"
         >
           Find Job
         </button>
