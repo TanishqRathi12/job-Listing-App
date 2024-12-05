@@ -39,6 +39,8 @@ To deploy:
 Tech Stack:
 Next.js: React-based framework for server-side rendering and static site generation.
 Tailwind CSS: Utility-first CSS framework for styling.
+
+
 TypeScript: For type safety and better development experience.src/
 ├── app/
 │   ├── components/         # Reusable UI components
@@ -55,6 +57,8 @@ TypeScript: For type safety and better development experience.src/
 │   │   └── globals.css       # Tailwind CSS and global styling
 │   ├── layout.tsx          # Root layout structure
 │   ├── page.tsx            # Main job listing page1. User Authentication:
+
+
 
 2. Allow users to create accounts, log in, and sync their bookmarks across devices.
 Job Alerts and Notifications:
