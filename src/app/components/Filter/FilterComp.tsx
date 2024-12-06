@@ -97,7 +97,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
           className="flex-1 border border-transparent focus:outline-none text-sm md:text-base"
         />
       </div>
-      <div className="flex items-center p-4 gap-3 border rounded-lg border-gray-300 flex-1">
+      <div className="flex items-center p-4 gap-1 border rounded-lg border-gray-300 flex-1">
         <MdLocationOn size={24} className="text-blue-600" />
         <input
           type="text"
@@ -117,7 +117,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         </div>
         <button
           type="submit"
-          className="px-5 py-2.5 text-white bg-blue-700 rounded-md hover:bg-blue-800 text-sm md:text-base"
+          className="px-3 py-2  text-white bg-blue-700 rounded-md hover:bg-blue-800 text-sm md:text-base sm:px-6 sm:py-3"
         >
           Find Job
         </button>
