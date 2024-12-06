@@ -11,21 +11,54 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
   const [keyword, setKeyword] = useState("");
   const [location, setLocation] = useState("");
 
-  // Function to fetch user's location (country) based on IP address
-  const getLocationFromIP = async () => {
-    try {
-      const response = await fetch("http://ip-api.com/json/");
-      const data = await response.json();
-      if (data && data.country) {
-        setLocation(data.country); // Set the location to the user's country
-        toast.success("Location fetched from IP", {
-          position: "top-right",
-          autoClose: 500,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching location:", error);
-      toast.error("Failed to fetch location",{
+  // Function to fetch user location latitude and longitude via Geolocation 
+  const getLocationFromGPS = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+
+          // Reverse geocode the coordinates to get country name
+          fetch(
+            `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${process.env.NEXT_PUBLIC_GEOCODE_API_KEY}`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+           //  console.log(data);
+              if (data.results && data.results.length > 0) {
+                const country = data.results[0].components.country;
+                if (country) {
+                  setLocation(country); // Set location to the country name
+                  toast.success(`Location fetched: ${country}`, {
+                    position: "top-right",
+                    autoClose: 500,
+                  });
+                }
+              } else {
+                toast.error("Could not retrieve country", {
+                  position: "top-right",
+                  autoClose: 500,
+                });
+              }
+            })
+            .catch((error) => {
+              console.error("Error with reverse geocoding:", error);
+              toast.error("Failed to fetch location from GPS", {
+                position: "top-right",
+                autoClose: 500,
+              });
+            });
+        },
+        (error) => {
+          console.error("Error fetching location:", error);
+          toast.error("Failed to fetch location from GPS", {
+            position: "top-right",
+            autoClose: 500,
+          });
+        }
+      );
+    } else {
+      toast.error("Geolocation not supported", {
         position: "top-right",
         autoClose: 500,
       });
@@ -37,11 +70,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
   };
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
+    setLocation(e.target.value); 
   };
 
   const handleGpsClick = () => {
-    getLocationFromIP(); // Fetch the location again when GPS button is clicked
+    getLocationFromGPS(); // Fetch location using the Geolocation 
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,13 +107,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
           className="flex-1 border border-transparent focus:outline-none text-sm md:text-base"
         />
         <div className="flex items-center gap-2">
-        <button
+          <button
             type="button"
             onClick={handleGpsClick}
-            className="p-2 rounded-full hover:bg-gray-200 hover:"
+            className="p-2 rounded-full hover:bg-gray-200"
           >
-          <MdGpsFixed size={24} className="text-gray-600" />
-          
+            <MdGpsFixed size={24} className="text-gray-600" />
           </button>
         </div>
         <button
