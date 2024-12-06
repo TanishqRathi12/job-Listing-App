@@ -6,6 +6,7 @@ import { fetchJobData } from "../../api/FetchJobData";
 import Card from "../Card/Card";
 import Filter from "../Filter/FilterComp";
 import Loading from "../Shared/Loading";
+import NotFound from "../Shared/NotFound";
 
 interface Job {
   title: string;
@@ -59,7 +60,7 @@ const Container: React.FC = () => {
     isError,
     error,
   } = useInfiniteQuery<Job[], Error>({
-    queryKey: ["jobs", filters.keyword,filters.location], // Unique key for the query
+    queryKey: ["jobs", filters.keyword,filters.location],
     queryFn: async ({ pageParam = 1 }) => fetchData({ pageParam : pageParam as number }),
     initialPageParam: 1, // Starting page for the query
     getNextPageParam: (lastPage, pages) => {
@@ -85,12 +86,13 @@ const Container: React.FC = () => {
   
   const filteredJobs = uniqueJobs.filter((job) => {   // Filter 
     const searchKeyword = filters.keyword.toLowerCase();
+    const cleanedSearchKeyword = searchKeyword.replace(/\s+/g, '').toLowerCase();
 
     const matchesKeyword =
       searchKeyword
-        ? job.keywords.some((keyword) => keyword.toLowerCase().includes(searchKeyword)) ||  //filter by keyword 
-          job.salary.toLowerCase().includes(searchKeyword) ||                                //filter by salary
-          job.title.toLowerCase().includes(searchKeyword)                                    //filter by title
+        ? job.keywords.some((keyword) => keyword.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword)) ||   //filter by keyword + clenaning the spaces
+          job.salary.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword) ||                                //filter by salary
+          job.title.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword)                                    //filter by title
         : true;
 
     const matchesLocation = filters.location
@@ -104,14 +106,18 @@ const Container: React.FC = () => {
     <>
       <Filter onFilterChange={onFilterChange} />
       {filteredJobs.length === 0 ? (
-        <div className="text-center text-2xl mt-8">No jobs found</div>) : (
+        <NotFound 
+        message={`No jobs found`} 
+        iconUrl="/no-results.png"
+      />
+      ) : (
       <InfiniteScroll
         dataLength={filteredJobs.length} // This is the current length of the list
         next={fetchNextPage}// Function to fetch the next page of data
         hasMore={!!hasNextPage} // Check if there are more pages
         loader={<Loading />} // Show loading component while fetching data
         endMessage={
-        <p>No more jobs</p>} // Message when no more data is available
+        <NotFound message="No more jobs" iconUrl="/no-results.png"/>} // Message when no more data is available
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-16 lg:px-48 py-8 sm:py-12 lg:py-16 bg-white rounded-md shadow-md">
           {filteredJobs.map((job,index) => (

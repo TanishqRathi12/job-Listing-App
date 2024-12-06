@@ -1,8 +1,7 @@
 Job Listing Frontend
 
 Overview
-The Job Listing Frontend is a robust and interactive web application designed to provide users with an efficient way to browse and manage job opportunities. Built with Next.js, styled using Tailwind CSS, and enhanced with TypeScript, this project offers advanced features like filtering, pagination, and bookmark functionality.
-With a focus on performance and user experience, the application ensures seamless navigation and dynamic job listing updates.
+The Job Listing Frontend is an interactive web app built with Next.js, Tailwind CSS, and TypeScript, offering features like filtering, pagination, and bookmarking. It now includes location detection through IP to provide localized job listings, enhancing user relevance. Additionally, data caching improves performance by reducing redundant API calls, ensuring faster load times and a seamless user experience. These enhancements, combined with a focus on usability and efficiency, make the platform dynamic and user-friendly.
 
 Setup Instructions
 

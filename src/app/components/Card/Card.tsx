@@ -60,7 +60,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-50 hover:to-white">
       <a href={companyUrl} target="_blank" rel="noreferrer">
-        <h3 className="text-lg text-black  hover:underline">
+        <h3 className="text-lg font-semibold text-gray-800  hover:underline">
           {title}
         </h3>
       </a>
@@ -70,7 +70,7 @@ const Card: React.FC<CardProps> = ({
         </span>
         <p className="mt-2 text-gray-500 text-s">Salary: {salary}</p>
       </div>
-      <div className="flex items-center justify-between mt-3">
+      <div className="flex items-center justify-between mt-4">
         <div className="flex items-center gap-1">
           <img
             src={Logo || getPlaceholderImage(company)}
