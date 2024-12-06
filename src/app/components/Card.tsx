@@ -11,7 +11,6 @@ interface CardProps {
   Logo: string;
   id: string;
   companyUrl: string;
-
 }
 
 const Card: React.FC<CardProps> = ({
@@ -22,7 +21,7 @@ const Card: React.FC<CardProps> = ({
   location,
   Logo,
   id,
-  companyUrl
+  companyUrl,
 }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -35,18 +34,19 @@ const Card: React.FC<CardProps> = ({
     const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
     let updatedBookmarks;
     if (bookmarks.includes(id)) {
-      updatedBookmarks = bookmarks.filter((bookmark: string) => bookmark !== id);
-      toast.dark("Bookmark removed",{
+      updatedBookmarks = bookmarks.filter(
+        (bookmark: string) => bookmark !== id
+      );
+      toast.dark("Bookmark removed", {
         position: "top-right",
         autoClose: 1000,
-      })
-
+      });
     } else {
       updatedBookmarks = [...bookmarks, id]; // If not bookmarked, add to bookmarks
-      toast.success("Bookmark added",{
+      toast.success("Bookmark added", {
         position: "top-right",
         autoClose: 1000,
-      })
+      });
     }
     // Update localStorage and component state
     localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
@@ -58,37 +58,42 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
-    
     <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-50 hover:to-white">
-      <a href={companyUrl} target="_blank" rel="noreferrer"><h3 className="text-lg font-semibold text-gray-800 hover:underline">{title}</h3></a>
-      <span className="inline-block px-2 py-1 mt-2 text-xs text-green-600 bg-green-100 rounded-md">
-        {isRemote}
-      </span>
-      <p className="mt-2 text-gray-600">Salary: {salary}</p>
+      <a href={companyUrl} target="_blank" rel="noreferrer">
+        <h3 className="text-lg text-black  hover:underline">
+          {title}
+        </h3>
+      </a>
+      <div className="flex items-center gap-1">
+        <span className="inline-block px-1.5 py-1 mt-2 text-xs font-bold text-green-600 bg-green-100 rounded-sm">
+          {isRemote}
+        </span>
+        <p className="mt-2 text-gray-500 text-s">Salary: {salary}</p>
+      </div>
       <div className="flex items-center justify-between mt-3">
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <img
             src={Logo || getPlaceholderImage(company)}
             alt={company}
             className="w-8 h-8 mr-2 object-scale-down"
           />
           <div>
-            <p className="text-sm font-medium text-gray-700">
-              {company}
-            </p>
+            <p className="text-sm font-medium text-gray-700">{company}</p>
             <div className=" flex items-center gap-1">
-              {location && location !== "REMOTE" ? (
-              <img src="/MapPin.png" alt="" className="w-4 h-4" />
-            ):("")}
-            <p className="text-xs text-gray-500">
-              {location && location === "REMOTE" ? "" :  location}
-            </p>
+              {location !== "REMOTE" ? (
+                <img src="/MapPin.png" alt="" className="w-4 h-4" />
+              ) : (
+                ""
+              )}
+              <p className="text-xs text-gray-500">
+                {location === "REMOTE" ? "" : location}
+              </p>
             </div>
           </div>
         </div>
         <button
           onClick={toggleBookmark}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-gray-400 hover:text-gray-700"
         >
           {isBookmarked ? (
             <FaBookmark size={20} className="text-yellow-500" />

@@ -8,7 +8,7 @@ const Navigation = () => {
             alt="briefcase png"
             className="mr-2 w-6 h-6 lg:w-8 lg:h-8"
           />
-          <p className="font-semibold text-lg lg:text-xl">RemoteJobs</p>
+          <p className="font-bold text-md fontFamily lg:text-xl">RemoteJobs</p>
         </div>
         <div className="flex items-center">
           <img

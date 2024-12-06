@@ -12,6 +12,9 @@ module.exports = {
       screens: {
         '968': '968px', // Custom breakpoint at 968px
       },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
     },
   },
   plugins: [],
