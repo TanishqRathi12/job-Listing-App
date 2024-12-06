@@ -1,7 +1,7 @@
 Job Listing Frontend
 
 Overview
-The Job Listing Frontend is an interactive web app built with Next.js, Tailwind CSS, and TypeScript, offering features like filtering, pagination, and bookmarking. It now includes location detection through IP to provide localized job listings, enhancing user relevance. Additionally, data caching improves performance by reducing redundant API calls, ensuring faster load times and a seamless user experience. These enhancements, combined with a focus on usability and efficiency, make the platform dynamic and user-friendly.
+The Job Listing Frontend is an interactive web app built with Next.js, Tailwind CSS, and TypeScript, offering features like filtering, pagination, and bookmarking. It now includes location detection through geolocation to provide localized job listings, enhancing user relevance. Additionally, data caching improves performance by reducing redundant API calls, ensuring faster load times and a seamless user experience. These enhancements, combined with a focus on usability and efficiency, make the platform dynamic and user-friendly.
 
 Setup Instructions
 
@@ -22,7 +22,8 @@ Installation
 4. Set up environment variables:
     Create a .env.local file in the root directory.
     Add the following environment variables:
-    NEXT_PUBLIC_API_URL=<your-api-url>
+    NEXT_PUBLIC_API_URL
+    NEXT_PUBLIC_GEOCODE_API_KEY
 
 5. Start the development server:
    npm start
@@ -45,7 +46,7 @@ TypeScript: For type safety and better development experience.src/
   app/
     api/                    # Centralized folder for API logic
       fetchJobData.ts       # Handles API calls for job data
-    components/             # All reusable UI components
+    components/             # UI components
       Card/                 # Job card component
         Card.tsx
       Container/            # Layout wrapper
