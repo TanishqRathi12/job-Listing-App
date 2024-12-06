@@ -1,6 +1,8 @@
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { toast } from "react-toastify";
+
 
 interface CardProps {
   title: string;
@@ -72,16 +74,18 @@ const Card: React.FC<CardProps> = ({
       </div>
       <div className="flex items-center justify-between mt-4">
         <div className="flex items-center gap-1">
-          <img
+          <Image
             src={Logo || getPlaceholderImage(company)}
             alt={company}
+            width={500}
+            height={500}
             className="w-8 h-8 mr-2 object-scale-down"
           />
           <div>
             <p className="text-sm font-medium text-gray-700">{company}</p>
             <div className=" flex items-center gap-1">
               {location !== "REMOTE" ? (
-                <img src="/MapPin.png" alt="" className="w-4 h-4" />
+                <Image src="/MapPin.png" alt="" width={500} height={500} className="w-4 h-4" />
               ) : (
                 ""
               )}

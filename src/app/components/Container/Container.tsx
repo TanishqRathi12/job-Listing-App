@@ -26,7 +26,7 @@ interface Job {
 // Function to fetch job data from an API with filters and pagination
 const fetchData = async ({ pageParam = 1 }: { pageParam: number }): Promise<Job[]> => {
   const offset = (pageParam - 1) * 20 + 1;
-  let url = `${process.env.NEXT_PUBLIC_URL}?offset=${offset}`;
+  const url = `${process.env.NEXT_PUBLIC_URL}?offset=${offset}`;
 
   // Fetch the job data from the API
   const jobs = await fetchJobData(url);
