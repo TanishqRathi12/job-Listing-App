@@ -52,10 +52,14 @@ const Card: React.FC<CardProps> = ({
     localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
     setIsBookmarked(!isBookmarked);
   };
+  const getPlaceholderImage = (company: string) => {
+    const firstLetter = company.charAt(0).toUpperCase();
+    return `https://via.placeholder.com/50/eeeeee/000000?text=${firstLetter}`;
+  };
 
   return (
     
-    <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-100 hover:to-white">
+    <div className="p-4 bg-white border rounded-md shadow transition-all duration-200 hover:shadow-lg hover:bg-gradient-to-r hover:from-yellow-50 hover:to-white">
       <a href={companyUrl} target="_blank" rel="noreferrer"><h3 className="text-lg font-semibold text-gray-800 hover:underline">{title}</h3></a>
       <span className="inline-block px-2 py-1 mt-2 text-xs text-green-600 bg-green-100 rounded-md">
         {isRemote}
@@ -64,13 +68,13 @@ const Card: React.FC<CardProps> = ({
       <div className="flex items-center justify-between mt-3">
         <div className="flex items-center">
           <img
-            src={Logo || "/Google.png"}
+            src={Logo || getPlaceholderImage(company)}
             alt={company}
             className="w-8 h-8 mr-2 object-scale-down"
           />
           <div>
             <p className="text-sm font-medium text-gray-700">
-              {company || "Google Inc."}
+              {company}
             </p>
             <div className=" flex items-center gap-1">
               {location && location !== "REMOTE" ? (

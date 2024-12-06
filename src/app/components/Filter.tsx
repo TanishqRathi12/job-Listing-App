@@ -85,7 +85,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         </div>
         <button
           type="submit"
-          className="px-2 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 text-sm md:text-base"
+          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 text-sm md:text-base"
         >
           Find Job
         </button>
