@@ -1,5 +1,5 @@
 import axios from "axios";
-import { parseHTMLData } from "./parseHTMLDatal";
+import { parseHTMLData } from "../components/helpers/parseHTMLDatal";
 
 export const fetchJobData = async (url: string, page: number = 1) => {
  // console.log("API Hit")

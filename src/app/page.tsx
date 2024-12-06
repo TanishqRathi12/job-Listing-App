@@ -1,12 +1,12 @@
 "use client";
 
-import { QueryClient ,QueryClientProvider, } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, } from "@tanstack/react-query";
 //import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Navigation from "./components/Navigation";
-import Container from "./components/Container";
-import Footer from "./components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Container from "./components/Container/Container";
+import Footer from "./components/Shared/Footer";
+import Navigation from "./components/Navigation/Navigation";
 
 
 

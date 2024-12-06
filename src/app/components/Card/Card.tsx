@@ -86,7 +86,7 @@ const Card: React.FC<CardProps> = ({
                 ""
               )}
               <p className="text-xs text-gray-500">
-                {location === "REMOTE" ? "" : location}
+                {location === "REMOTE" ? "Worldwide" : location}
               </p>
             </div>
           </div>

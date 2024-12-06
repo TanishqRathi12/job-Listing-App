@@ -1,11 +1,11 @@
-import React, { useState, useCallback} from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useCallback, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Card from "./Card";
-import Loading from "./Loading";
-import { fetchJobData } from "./FetchJobData";
-import Filter from "./Filter";
 import { toast } from "react-toastify";
+import { fetchJobData } from "../../api/FetchJobData";
+import Card from "../Card/Card";
+import Filter from "../Filter/FilterComp";
+import Loading from "../Shared/Loading";
 
 interface Job {
   title: string;

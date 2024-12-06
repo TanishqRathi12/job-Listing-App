@@ -42,31 +42,39 @@ Tailwind CSS: Utility-first CSS framework for styling.
 
 
 TypeScript: For type safety and better development experience.src/
-├── app/
-│   ├── components/         # Reusable UI components
-│   │   ├── Card.tsx          # Renders individual job cards
-│   │   ├── Container.tsx     # Layout wrapper
-│   │   ├── FetchJobData.tsx  # Handles API calls for job data
-│   │   ├── Filter.tsx        # Filtering functionality
-│   │   ├── Footer.tsx        # Footer component
-│   │   ├── Loading.tsx       # Loading spinner
-│   │   ├── Navigation.tsx    # Top navigation bar
-│   │   └── parseHTMLData.tsx # Parses HTML data for rendering
-│   ├── fonts/              # Custom fonts (if applicable)
-│   ├── styles/             # Global and component-level styles
-│   │   └── globals.css       # Tailwind CSS and global styling
-│   ├── layout.tsx          # Root layout structure
-│   ├── page.tsx            # Main job listing page1. User Authentication:
+  src/
+  app/
+    api/                    # Centralized folder for API logic
+      fetchJobData.ts       # Handles API calls for job data
+    components/             # All reusable UI components
+      Card/                 # Job card component
+        Card.tsx
+      Container/            # Layout wrapper
+        Container.tsx
+      Navigation/           # Navigation-related components
+        Navigation.tsx
+      filters/              # Components related to filtering
+        Filter.tsx
+      shared/               # General-purpose reusable components
+        Loading.tsx
+        Footer.tsx
+    fonts/                  # Custom fonts (if applicable)
+    styles/                 # Global and component-level styles
+      globals.css           # Tailwind CSS and other global styles
+    layout.tsx              # Root layout structure
+    page.tsx                # Main job listing page
 
 
 
-2. Allow users to create accounts, log in, and sync their bookmarks across devices.
+Future Improvements
+
+1. Allow users to create accounts, log in, and sync their bookmarks across devices.
 Job Alerts and Notifications:
 
-3. Add the ability to subscribe to job alerts based on filters like location or job type.
+2. Add the ability to subscribe to job alerts based on filters like location or job type.
 Enhanced Bookmark Management:
 
-4. Introduce folders or tags to organize bookmarked jobs more effectively.
+3. Introduce folders or tags to organize bookmarked jobs more effectively.
 Offline Support:
 
-5. Add multi-language support to cater to a global audience.
+4. Add multi-language support to cater to a global audience.
