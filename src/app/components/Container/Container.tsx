@@ -30,6 +30,7 @@ const fetchData = async ({ pageParam = 1 }: { pageParam: number }): Promise<Job[
 
   // Fetch the job data from the API
   const jobs = await fetchJobData(url);
+  console.log(jobs)
   return jobs;
 };
 
