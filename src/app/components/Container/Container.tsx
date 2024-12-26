@@ -30,7 +30,6 @@ const fetchData = async ({ pageParam = 1 }: { pageParam: number }): Promise<Job[
 
   // Fetch the job data from the API
   const jobs = await fetchJobData(url);
-  console.log(jobs)
   return jobs;
 };
 
@@ -67,7 +66,6 @@ const Container: React.FC = () => {
     getNextPageParam: (lastPage, pages) => {
       return lastPage.length > 0 ? pages.length + 1 : undefined; // Determine if there is a more another page
     },
-    enabled: true, // without filter on initial load
   });
 
   // Loading and error states
@@ -84,15 +82,16 @@ const Container: React.FC = () => {
       ])
     ).values()
   );
+
   
-  const filteredJobs = uniqueJobs.filter((job) => {   // Filter 
-    const searchKeyword = filters.keyword.toLowerCase();
+  const filteredJobs = uniqueJobs.filter((job) => {   // Filter
+    const searchKeyword = filters.keyword
     const cleanedSearchKeyword = searchKeyword.replace(/\s+/g, '').toLowerCase();
 
     const matchesKeyword =
       searchKeyword
         ? job.keywords.some((keyword) => keyword.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword)) ||   //filter by keyword + clenaning the spaces
-          job.salary.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword) ||                                //filter by salary
+          job.salary.replace(/\s+/g, '').includes(cleanedSearchKeyword) ||                                //filter by salary
           job.title.replace(/\s+/g, '').toLowerCase().includes(cleanedSearchKeyword)                                    //filter by title
         : true;
 
@@ -101,7 +100,6 @@ const Container: React.FC = () => {
       : true;
     return matchesKeyword && matchesLocation;
   });
- // console.log(filteredJobs);
 
   return (
     <>

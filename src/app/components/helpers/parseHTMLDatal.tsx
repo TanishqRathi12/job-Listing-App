@@ -1,12 +1,12 @@
 import * as cheerio from 'cheerio';
 
-// Utility function to extract keywords from the description
-const extractKeywords = (description: string, tags: string[] = []): string[] => {
+//function to extract keywords from the description
+const extractKeywords = (description: string): string[] => {
   const keywordsFromDescription = description
     ?.match(/\b\w{4,}\b/g) || [];  // Match words longer than 3 characters
 
-  // Combine extracted keywords with provided tags and remove duplicates
-  return Array.from(new Set([...keywordsFromDescription, ...tags]));
+  //remove duplicates
+  return Array.from(new Set([...keywordsFromDescription]));
 };
 
 // Function to extract job posting details from JSON-LD
@@ -73,7 +73,6 @@ export const parseHTMLData = (html: string): object[] => {
   });
 
  // console.log('Parsed job postings:', jobList);
-
   return jobList;
 };
 
